@@ -8,7 +8,7 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/Auth/auth.service';
-
+import { SocialAuthService } from '@abacritt/angularx-social-login';
 
 @Component({
   selector: 'app-header',
@@ -24,7 +24,7 @@ export class HeaderComponent {
 
   showFiller = false;
   user :any
-  constructor (private route: Router, public dialog: MatDialog,private AuthService : AuthService) {
+  constructor (private route: Router, public dialog: MatDialog,private AuthService : AuthService,private authServiceso: SocialAuthService,) {
 
   }
   ngOnInit(){
@@ -34,6 +34,9 @@ export class HeaderComponent {
   logout(){
     this.AuthService.setIsAuthenticated(false)
     this.AuthService.setUser({})
+      
+      // this.route.navigate(['auth']).then(() => window.location.reload());
+      this.authServiceso.signOut();
       this.route.navigate(['auth'])
   }
 }

@@ -1,9 +1,12 @@
 import { T } from '@angular/cdk/keycodes';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, from } from 'rxjs';
 import { Results } from 'src/app/models/results';
 import { User } from 'src/app/models/user';
+import { environment } from 'environment ';
+import { SocialAuthService } from 'angularx-social-login';
+import { GoogleLoginProvider,SocialUser } from 'angularx-social-login';
 
 @Injectable({
   providedIn: 'root'
@@ -17,10 +20,11 @@ export class AuthService {
   private emailSending = false
   private role :String
   private storage:[]
+  private path = environment.apiUrl;
+  public users:SocialUser | undefined
 
 
-
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient,private authservicesocail:SocialAuthService) {
     const storedIsAuthenticated = localStorage.getItem('isAuthenticated');
     if (storedIsAuthenticated) {
       this.isAuthenticated = JSON.parse(storedIsAuthenticated);
@@ -34,6 +38,31 @@ export class AuthService {
       this.role = JSON.parse(role);
     }
   }
+  // logingoogle(){
+  //   return this.authservicesocail.signIn(GoogleLoginProvider.PROVIDER_ID)
+  // }
+LogInso(){
+  console.log(GoogleLoginProvider.PROVIDER_ID)
+  this.authservicesocail.signIn(GoogleLoginProvider.PROVIDER_ID).then(user=>{
+    this.users=user;
+    console.log(`login this.user:${JSON.stringify(this.users)}`)
+  }).catch(error => console.log(error));
+ 
+}
+
+  // LoginWithGoogle(credentials: string): Observable<Results> {
+  //   // const header = new HttpHeaders().set('Content-type', 'application/json');
+  //   const header = new HttpHeaders({
+  //     "Content-Type": "application/json",
+  //     // "Access-Control-Allow-Origin": "http://127.0.0.1:3000"
+  //   })
+  // //   const header = new HttpHeaders()
+  // // .set("Content-Type", "application/json")
+  // // .set("Access-Control-Allow-Origin", "http://127.0.0.1:3000");
+  //   return this.httpClient.post<Results>("http://localhost:3000/users/login-user", JSON.stringify(credentials), { headers: header });
+  //     // var data = this.httpClient.post<Results>('http://localhost:3000/users/login-user', value, { headers: header })
+  //   // return data
+  // }
 
   setEmailSending(value:boolean){
     this.emailSending = value

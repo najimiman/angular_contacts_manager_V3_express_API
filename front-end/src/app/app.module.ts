@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule ,CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
@@ -23,6 +23,17 @@ import { SidebarComponent } from './layouts/full/sidebar/sidebar.component';
 import { HeaderComponent } from './layouts/full/header/header.component';
 import { BrandingComponent } from './layouts/full/sidebar/branding.component';
 import { AppNavItemComponent } from './layouts/full/sidebar/nav-item/nav-item.component';
+// import { SocialLoginModule } from 'angularx-social-login';
+// import { GoogleLoginProvider ,SocialAuthServiceConfig} from 'angularx-social-login';
+import { AuthService } from './services/Auth/auth.service';
+import { GateGuard } from './middleware/gate.guard';
+import { SocialAuthService } from 'angularx-social-login';
+
+import { SocialLoginModule, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
+import {
+  GoogleLoginProvider
+} from '@abacritt/angularx-social-login';
+import { GoogleSigninButtonDirective,GoogleSigninButtonModule } from '@abacritt/angularx-social-login';
 
 @NgModule({
   declarations: [
@@ -43,8 +54,31 @@ import { AppNavItemComponent } from './layouts/full/sidebar/nav-item/nav-item.co
     ReactiveFormsModule,
     MaterialModule,
     TablerIconsModule.pick(TablerIcons),
+    SocialLoginModule,
+    GoogleSigninButtonModule,
+  ],
+  providers:[
+    AuthService,
+    GateGuard,
+    {
+      provide:'SocialAuthServiceConfig',
+      useValue:{
+        autoLogin:false,
+        providers:[
+          {
+            id:GoogleLoginProvider.PROVIDER_ID,
+            provider:new GoogleLoginProvider(
+              '794629245651-uftn2m5b19ctaec5qa9fv81u374untfj.apps.googleusercontent.com'
+            )
+          }
+        ]
+      } as SocialAuthServiceConfig,
+    },
+    SocialAuthService,
+    GoogleSigninButtonDirective,
   ],
   exports: [TablerIconsModule],
   bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppModule {}

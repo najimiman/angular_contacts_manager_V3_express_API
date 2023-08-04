@@ -73,7 +73,7 @@ router.post('/add-user', function (req, res) {
     .hash(req.body.password, saltRounds)
     .then(hash => {
       userHash = hash
-
+      const hashedpassword=bcrypt.hashSync(req.body.password,10)
       UsersModel.find().then((data) => {
         const idInc = data.length
         console.log(data.length)
@@ -93,7 +93,7 @@ router.post('/add-user', function (req, res) {
             userId: counter.sequence_value,
             username: req.body.username,
             email: req.body.email,
-            password: req.body.password,
+            password: hashedpassword,
             fullName: req.body.fullName,
             birthday: req.body.birthday,
             role: req.body.role,
