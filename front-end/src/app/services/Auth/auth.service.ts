@@ -38,9 +38,7 @@ export class AuthService {
       this.role = JSON.parse(role);
     }
   }
-  // logingoogle(){
-  //   return this.authservicesocail.signIn(GoogleLoginProvider.PROVIDER_ID)
-  // }
+  
 LogInso(){
   console.log(GoogleLoginProvider.PROVIDER_ID)
   this.authservicesocail.signIn(GoogleLoginProvider.PROVIDER_ID).then(user=>{
@@ -50,19 +48,6 @@ LogInso(){
  
 }
 
-  // LoginWithGoogle(credentials: string): Observable<Results> {
-  //   // const header = new HttpHeaders().set('Content-type', 'application/json');
-  //   const header = new HttpHeaders({
-  //     "Content-Type": "application/json",
-  //     // "Access-Control-Allow-Origin": "http://127.0.0.1:3000"
-  //   })
-  // //   const header = new HttpHeaders()
-  // // .set("Content-Type", "application/json")
-  // // .set("Access-Control-Allow-Origin", "http://127.0.0.1:3000");
-  //   return this.httpClient.post<Results>("http://localhost:3000/users/login-user", JSON.stringify(credentials), { headers: header });
-  //     // var data = this.httpClient.post<Results>('http://localhost:3000/users/login-user', value, { headers: header })
-  //   // return data
-  // }
 
   setEmailSending(value:boolean){
     this.emailSending = value
